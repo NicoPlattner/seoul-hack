@@ -19,6 +19,9 @@
 
 <script>
 import {store} from '../../common/store.ts'
+import {AptosClient} from 'aptos';
+
+
 
 export default {
   name: "BodyComponent",
@@ -41,7 +44,7 @@ export default {
       nft.selected = true;
       this.selected = nft;
     },
-    start() {
+    async start() {
       // const nft = store.tokens[0];
       // const creator = nft.creator_address;
       // const collection_name = nft.collection_name;
@@ -49,40 +52,44 @@ export default {
       // const property_version = nft.property_version;
       // const join_amount_requirement = 1;
 
-      // const getAptosWallet = () => {
-      //   if ('aptos' in window) {
-      //     return window['aptos'];
-      //   } else {
-      //     window.open('https://petra.app/', `_blank`);
-      //   }
-      // };
-      //
+      const getAptosWallet = () => {
+        if ('aptos' in window) {
+          return window['aptos'];
+        } else {
+          window.open('https://petra.app/', `_blank`);
+        }
+      };
+      console.log('getAptosWallet logging:')
+      console.log(getAptosWallet());
+
       // const wallet = getAptosWallet(); // see "Connecting"
 
 // Example Transaction, following an [EntryFunctionPayload](https://github.com/aptos-labs/aptos-core/blob/main/ecosystem/typescript/sdk/src/generated/models/EntryFunctionPayload.ts#L8-L21)
-//       const transaction = {
-//         arguments: [store.account.address, '717'],
-//         function: '0x1::coin::transfer',
-//         type: 'entry_function_payload',
-//         type_arguments: ['0x1::aptos_coin::AptosCoin'],
-//       };
-//
-//       try {
-//         const pendingTransaction = await(
-//             window as any,
-//       ).aptos.signAndSubmitTransaction(transaction);
-//
-//         // In most cases a dApp will want to wait for the transaction, in these cases you can use the typescript sdk
-//         const client = new AptosClient('https://testnet.aptoslabs.com');
-//         const txn = await client.waitForTransactionWithResult(
-//             pendingTransaction.hash,
-//         );
-//       } catch (error) {
-//         // see "Errors"
-//       }
+      const transaction = {
+        arguments: ['0xa06411afe2bab2ae80338363dcf0bcdc2db55e3a2ef4acb369abad8d036d63c6','test','test: 197','0','1'],
+        function: '0x948f30f10f6b90077db3215f9e71d8cf113ad2fd10d73563994dfff926a05c37::nftango::initialize_game',
+        type: 'entry_function_payload',
+        type_arguments: [],
+      };
+      console.log('transaction logging:')
+      console.log(transaction);
 
+      try {
+        // const { account, signAndSubmitTransaction } = useWallet();
+        // console.log(account);
+        const pendingTransaction = await (
+            window)['aptos'].signAndSubmitTransaction(transaction);
+        // pendingTransaction.signAndSubmitTransaction(transaction);
 
-
+        // In most cases a dApp will want to wait for the transaction, in these cases you can use the typescript sdk
+        const client = new AptosClient('https://testnet.aptoslabs.com');
+        const txn = await client.waitForTransactionWithResult(
+            pendingTransaction.hash,
+        );
+        console.log(txn);
+      } catch (error) {
+        console.log(error)
+      }
 
 
     }
