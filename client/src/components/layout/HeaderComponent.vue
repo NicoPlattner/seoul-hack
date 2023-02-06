@@ -1,7 +1,7 @@
 <template>
   <div style="vertical-align: center">
       <div id="logo" style="font-size: 3em; float: left; top: auto; bottom: auto; height: 100%; vertical-align: center; color: aliceblue">
-      NFTango
+        NFTango
     </div>
     <div id="buttonContainer" style="float: right; height: 100%; margin: 0 2em">
       <button v-on:click="connectWallet()" style="  position: relative;
@@ -122,7 +122,6 @@ export default {
         tokens_with_images.push(updated);
         console.log(tokens_with_images)
         store.tokens = [...tokens_with_images]
-
       }
       console.log(tokens_with_images)
     },
